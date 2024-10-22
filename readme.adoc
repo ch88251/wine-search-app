@@ -1,0 +1,9 @@
+= Wine Search Application
+
+This is a simple application that allows users to search for wines by name, region, or type. It demonstrates Elasticsearch full-text search capabilities.  The application is built using the following technologies:
+
+- Python 3.12
+- Django 4
+- PostgreSQL 14
+- Elasticsearch 7.15
+- Docker
