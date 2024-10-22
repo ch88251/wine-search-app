@@ -1,11 +1,35 @@
 services:
 
+  database:
+    container_name: wine-database
+    environment:
+      - POSTGRES_DB=winesearch
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    image: postgres:15.2
+    ports:
+      - "5433:5432"
+    volumes:
+      - winesearch-database:/var/lib/postgresql/data
+
   server:
     build:
       context: ./server
     container_name: wine-server
+    depends_on:
+      - database
+    environment:
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_DATABASE=winesearch
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=database
+      - DB_PORT=5432
     command: [ "bash", "start.sh" ]
     ports:
       - 8003:8000
     volumes:
       - ./server:/usr/src/app
+
+volumes:
+  winesearch-database:
